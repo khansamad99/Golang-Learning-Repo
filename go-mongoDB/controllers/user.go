@@ -19,6 +19,10 @@ func NewUserController(s *mgo.Session) *UserController {
 	return &UserController{s}
 }
 
+func (uc UserController) Hello(_ http.ResponseWriter, _ *http.Request, _ httprouter.Params) {
+	fmt.Println("Server is run")
+}
+
 func (uc UserController) GetUser(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	id := p.ByName("id")
 
@@ -45,7 +49,7 @@ func (uc UserController) GetUser(w http.ResponseWriter, r *http.Request, p httpr
 	fmt.Fprintf(w, "%s\n", uj)
 }
 
-func (uc UserController) CreateUser(w http.ResponseWriter, r *http.Request) {
+func (uc UserController) CreateUser(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	u := models.User{}
 
 	json.NewDecoder(r.Body).Decode(&u)
